@@ -1,0 +1,72 @@
+<!-- views/pedidos.ejs -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Meus Pedidos - Jyl Store</title>
+    <style>
+        body { font-family: sans-serif; background-color: #2c2f33; color: white; margin: 0; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 { text-align: center; margin-bottom: 30px; color: #fff; }
+        .order-item { background-color: #23272a; padding: 15px; border-radius: 5px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .order-item a { color: #5865F2; text-decoration: none; font-weight: bold; }
+        .order-status { padding: 5px 10px; border-radius: 15px; color: white; font-size: 0.9em; text-transform: capitalize; }
+        .status-analise, .status-pending_approval { background-color: #f0ad4e; }
+        .status-approved { background-color: #5bc0de; }
+        .status-entregue { background-color: #5cb85c; }
+        .status-declined { background-color: #d9534f; }
+        .chat-btn { background-color: #5865F2; color: white; padding: 8px 12px; border-radius: 5px; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Meus Pedidos</h1>
+        <% if (orders && orders.length > 0) { %>
+            <% orders.forEach(order => { %>
+                <div class="order-item">
+                    <div>
+                        <strong><%= order.productName %></strong> - Pedido: <%= order.id %>
+                        <p>Status: <span id="status-<%= order.id %>" class="order-status status-<%= (order.status || 'desconhecido').toLowerCase() %>"><%= order.status || 'Desconhecido' %></span></p>
+                    </div>
+                    <a href="/order/chat/<%= order.id %>" class="chat-btn" style="display: <%= (order.status && (order.status === 'approved' || order.status === 'entregue')) ? 'inline-block' : 'none' %>;">Abrir Chat</a>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <p style="text-align: center;">Você ainda não fez nenhum pedido.</p>
+        <% } %>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const statusElements = document.querySelectorAll('[id^="status-"]');
+            if (statusElements.length === 0) return;
+            const orderIds = Array.from(statusElements).map(el => el.id.replace('status-', ''));
+
+            function updateAllStatuses() {
+                orderIds.forEach(orderId => {
+                    fetch(`/order/status/${orderId}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            const statusSpan = document.getElementById(`status-${orderId}`);
+                            const chatBtn = statusSpan.closest('.order-item').querySelector('.chat-btn');
+
+                            if (statusSpan && data.status && statusSpan.textContent !== data.status) {
+                                statusSpan.textContent = data.status;
+                                statusSpan.className = `order-status status-${data.status.toLowerCase()}`;
+
+                                // Mostra ou esconde o botão de chat
+                                if (data.status === 'approved' || data.status === 'entregue') {
+                                    chatBtn.style.display = 'inline-block';
+                                } else {
+                                    chatBtn.style.display = 'none';
+                                }
+                            }
+                        }).catch(err => console.error(`Erro ao atualizar status para ${orderId}:`, err));
+                });
+            }
+
+            setInterval(updateAllStatuses, 7000); // Atualiza a cada 7 segundos
+        });
+    </script>
+</body>
+</html>

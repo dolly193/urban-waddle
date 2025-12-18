@@ -1,0 +1,25 @@
+{
+  "name": "meu-bot-de-vendas",
+  "version": "1.0.0",
+  "description": "Bot de vendas com site integrado para Discord",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Seu Nome",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cloudinary": "^2.2.0",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.22.1",
+    "express-session": "^1.18.2",
+    "multer": "^2.0.2",
+    "node-fetch": "^2.7.0",
+    "pg": "^8.16.3",
+    "sdk-node-apis-efi": "^1.2.25",
+    "socket.io": "^4.8.1"
+  }
+}

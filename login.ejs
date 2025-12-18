@@ -1,0 +1,23 @@
+<!-- views/login.ejs -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Jyl Store</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #2c2f33; color: white; }
+        .login-box { text-align: center; background-color: #23272a; padding: 40px; border-radius: 8px; }
+        .discord-btn { background-color: #5865F2; color: white; padding: 15px 30px; border-radius: 5px; text-decoration: none; font-size: 18px; }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h1>Jyl Store</h1>
+        <p>Faça login com sua conta do Discord para continuar.</p>
+        <br>
+        <a href="https://discord.com/api/oauth2/authorize?client_id=<%= discord_client_id %>&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fdiscord%2Fcallback&response_type=code&scope=identify" class="discord-btn">
+            Login com Discord
+        </a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado da Ação</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; color: #333; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { background: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center; max-width: 90%; width: 500px; }
+        .message { padding: 1rem; border-radius: 4px; margin-bottom: 1rem; }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Resultado da Operação</h1>
+        <% if (typeof actionResult !== 'undefined') { %>
+            <div class="message <%= actionResult.success ? 'success' : 'error' %>">
+                <p><%= actionResult.message %></p>
+            </div>
+        <% } %>
+        <p>Você já pode fechar esta aba.</p>
+    </div>
+</body>
+</html>
